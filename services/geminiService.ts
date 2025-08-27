@@ -50,7 +50,9 @@ const responseSchema = {
 };
 
 function buildPrompt(currentState: GameState, history: GameHistory[], choiceText: string): string {
-    const historyString = history.map(h => `Scene: ${h.story}\nYour Choice: ${h.choice}`).join('\n\n');
+    // To prevent the prompt from becoming too large, only use the last 4 entries of the history.
+    const recentHistory = history.slice(-4);
+    const historyString = recentHistory.map(h => `Scene: ${h.story}\nYour Choice: ${h.choice}`).join('\n\n');
 
     return `
 You are the Game Master for a text-based adventure game called 'AGI Arms Race'. 
